@@ -14,6 +14,10 @@ $ terminus developer:help debug
 ```
 Search for the keyword `debug` in the documentation and return results in the default browser.
 ```
+$ terminus developer:help tests
+```
+Search for the keyword `tests` in the documentation and return results in the default browser.
+```
 $ terminus developer:help contribute --output=print
 ```
 Search for the keyword `contribute` in the documentation and return results in the terminal.
