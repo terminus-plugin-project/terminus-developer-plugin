@@ -44,9 +44,11 @@ class DeveloperCommand extends TerminusCommand
 
         $docs = [
             'https://pantheon.io/docs/terminus/plugins/create/',
+            'https://github.com/pantheon-systems/terminus/blob/master/CONTRIBUTING.md',
         ];
 
-        $terms = [
+        $terms = [];
+        $terms[0] = [
             'create-the-example-plugin',
             '1.-create-plugin-directory',
             '2.-create-composer.json',
@@ -59,30 +61,46 @@ class DeveloperCommand extends TerminusCommand
             'plugin-versioning',
             'more-resources',
         ];
+        $terms[1] = [
+            'user-content-creating-issues',
+            'user-content-setting-up',
+            'user-content-submitting-patches',
+            'user-content-running-and-writing-tests',
+            'user-content-unit-tests',
+            'user-content-functional-tests',
+            'user-content-versioning',
+            'user-content-versions',
+            'user-content-what-qualifies-as-a-backward-incompatible-change',
+            'user-content-release-stability',
+            'user-content-feedback',
+        ];
 
-        foreach ($docs as $doc) {
+        foreach ($docs as $key => $doc) {
             if (!$this->isValidUrl($doc)) {
                 $message = "The url {$doc} is not valid.";
                 throw new TerminusException($message);
             }
             if ($options['output'] == 'browse') {
-                $anchor = '';
-                foreach ($terms as $term) {
+                foreach ($terms[$key] as $term) {
                     if (stripos($term, $keyword) !== false) {
-                        $anchor = $term;
-                        break;
+                        $command = sprintf('%s %s', $cmd, $doc . '#' . $term);
+                        $this->execute($command);
                     }
-                }
-                if ($anchor) {
-                    $command = sprintf('%s %s', $cmd, $doc . '#' . $anchor);
-                    exec($command);
                 }
             } else {
                 if ($content = @file_get_contents($doc)) {
                     $newlines = [];
                     $content = str_replace("\n", '<br />', $content);
                     $content = str_replace('`', '', $content);
-                    preg_match('`<div class="col-xs-12 col-md-7 manual-doc">(.*)</div>`', $content, $matches);
+                    switch ($key) {
+                        case 0:
+                            $pattern = '`<div class="col-xs-12 col-md-7 manual-doc">(.*)</div>`';
+                            break;
+                        case 1:
+                            $pattern = '`<div id="readme" class="readme blob instapaper_body">(.*)</div>`';
+                            break;
+                    }
+                    preg_match($pattern, $content, $matches);
                     if (isset($matches[1])) {
                         $lines = explode('<br />', $matches[1]);
                         foreach ($lines as $l => $line) {
@@ -93,11 +111,29 @@ class DeveloperCommand extends TerminusCommand
                         }
                     }
                     if (!empty($newlines)) {
-                        print_r(implode("\n", $newlines));
+                        print("\nResults from {$doc}:\n");
+                        print(implode("\n", $newlines));
+                        print "\n";
                     }
                 }
             }
         }
+    }
+
+    /**
+     * Executes the command.
+     */
+    protected function execute($cmd) {
+        $process = proc_open(
+            $cmd,
+            [
+                0 => STDIN,
+                1 => STDOUT,
+                2 => STDERR,
+            ],
+            $pipes
+        );
+        proc_close($process);
     }
 
     /**
