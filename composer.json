@@ -1,0 +1,36 @@
+{
+    "name": "terminus-plugin-project/terminus-developer-plugin",
+    "description": "Developer - A Terminus plugin to assist with plugin development.",
+    "homepage": "https://github.com/terminus-plugin-project/terminus-developer-plugin",
+    "authors": [
+        {
+            "name": "Ed Reel",
+            "email": "edreel@gmail.com",
+            "homepage": "https://github.com/uberhacker",
+            "role": "Developer"
+        }
+    ],
+    "type": "terminus-plugin",
+    "keywords": [
+        "pantheon",
+        "terminus",
+        "developer",
+        "development",
+        "plugin"
+    ],
+    "support": {
+        "issues": "https://github.com/terminus-plugin-project/terminus-developer-plugin/issues"
+    },
+    "license": "MIT",
+    "require": {
+        "php": "^5.5 || ^7.0"
+    },
+    "autoload": {
+        "psr-4": { "TerminusPluginProject\\TerminusDeveloper\\": "src" }
+    },
+    "extra": {
+        "terminus": {
+            "compatible-version": "^1"
+        }
+    }
+}
