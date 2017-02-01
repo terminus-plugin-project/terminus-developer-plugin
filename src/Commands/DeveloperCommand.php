@@ -7,8 +7,6 @@ use Pantheon\Terminus\Exceptions\TerminusException;
 
 /**
  * Plugin development assistant.
- *
- * @command plugin
  */
 class DeveloperCommand extends TerminusCommand
 {
@@ -20,7 +18,7 @@ class DeveloperCommand extends TerminusCommand
      *
      * @option keyword Keyword to search in help
      *
-     * @usage terminus developer:help <keyword> [--browse | --print]
+     * @usage terminus developer:help <keyword> [--output=browse|print]
      *     Displays the results of a search based on the keyword provided.
      */
     public function help($keyword = '', $options = ['output' => 'browse']) {
