@@ -28,7 +28,7 @@ For installation help, see [Manage Plugins](https://pantheon.io/docs/terminus/pl
 
 ```
 mkdir -p ~/.terminus/plugins
-composer create-project -d ~/.terminus/plugins terminus-plugin-project/terminus-developer-plugin:~1
+composer create-project -d ~/.terminus/plugins terminus-plugin-project/terminus-developer-plugin:~2
 ```
 
 ## Configuration:
